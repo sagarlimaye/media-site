@@ -23,7 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist', 'media-site')));
 
-app.get('/', function(req, res, next) {
+app.get('*', function(req, res, next) {
   res.sendFile('/', { root: 'dist/media-site/' });
 });
 
