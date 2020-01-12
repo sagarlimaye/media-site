@@ -3,6 +3,7 @@ import { CanActivate, CanActivateChild, ActivatedRouteSnapshot, RouterStateSnaps
 import { Observable, Subscribable, Subscription } from 'rxjs';
 import { LoginService } from '../login.service';
 import { User } from '../user';
+import { map, tap } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -17,16 +18,15 @@ export class AuthGuard implements CanActivate, CanActivateChild {
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.checkLogin(state.url);
+    return this.loginService.tokenSubject.pipe(map(token => this.checkLogin(this.url, token)));
   }
   canActivateChild(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return true;
+    return this.canActivate(next, state);
   }
-  checkLogin(url: string) {
-    if(localStorage.getItem('_id') === null) {
-      console.log('hey');
+  checkLogin(url: string, token: string) {
+    if(!token) {
       this.loginService.redirectUrl = url;
       
       this.router.navigate(['/login']);

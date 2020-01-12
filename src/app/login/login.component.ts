@@ -20,10 +20,7 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   authenticate() {
     this.loginSubscription = this.loginService.auth(this.username, this.password).subscribe((data) => {
-      localStorage.setItem('token', data.toString());
-      if(data['role'] == 2)
-        this.router.navigate([this.loginService.redirectUrl]);
-      else this.router.navigate(['/admin']);
+      this.router.navigate([this.loginService.redirectUrl]);
     });
   }
   ngOnDestroy(): void {

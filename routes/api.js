@@ -1,6 +1,12 @@
 var express = require('express');
 var router = express.Router();
 const createError = require('http-errors');
+const config = require('../config.json');
+const jwt = require('jsonwebtoken');
+const crypto = require('crypto');
+const mongoose = require('mongoose');
+const userSchema = require('../schemas/user');
+const User = mongoose.model('User', userSchema, 'users');
 
 router.use('/auth', function(req, res, next) {
   if(req.body && req.body.username && req.body.password) {
@@ -11,7 +17,7 @@ router.use('/auth', function(req, res, next) {
     User.findOne({ username: id, password: password})
     .then((user) => {
       if(user == null) {
-        next(createError(401));
+        next(createError(401)); 
       }
       else {
         var token = jwt.sign(user.toJSON(), config.secret, { expiresIn: "1h" });
@@ -22,7 +28,7 @@ router.use('/auth', function(req, res, next) {
   else next(createError(400));
 });
 
-router.post('register', (req, res, next) => {
+router.post('/register', (req, res, next) => {
   if(req.body) {
     let hash = crypto.createHash('sha256');
     hash.update(req.body.password);

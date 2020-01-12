@@ -4,6 +4,7 @@ import { AppComponent } from './app.component';
 import { AuthGuard } from './auth/auth.guard';
 import { LoginComponent } from './login/login.component';
 import { NewsComponent } from './news/news.component';
+import { AboutComponent } from './about/about.component';
 
 
 const routes: Routes = [
@@ -12,13 +13,14 @@ const routes: Routes = [
   },
   {
     path: '', 
-    component: NewsComponent,
     canActivate: [AuthGuard],
     children: [
       {
-        path: '', 
+        path: '',
+        canActivateChild: [AuthGuard],
         children: [
-          { path: 'news', component: NewsComponent }
+          { path: '', component: NewsComponent },
+          { path: 'about', component: AboutComponent }
         ]
       }
     ]
