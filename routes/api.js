@@ -1,7 +1,8 @@
 var express = require('express');
 var router = express.Router();
+const createError = require('http-errors');
 
-router.post('/auth', function(req, res, next) {
+router.use('/auth', function(req, res, next) {
   if(req.body && req.body.username && req.body.password) {
     let id = req.body.username;
     let hash = crypto.createHash('sha256');
