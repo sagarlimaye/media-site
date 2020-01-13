@@ -22,7 +22,7 @@ router.post('/auth', function(req, res, next) {
         next(createError(401)); 
       }
       else {
-        var token = jwt.sign(user.toJSON(), config.secret, { expiresIn: "1h" });
+        var token = jwt.sign(user.toJSON(), config.secret, { expiresIn: "10m" });
         res.json(token);
       }
     }).catch(err => next(err));
@@ -44,8 +44,12 @@ router.use('/:path(news|users|user)',function(req, res, next) {
   if(req.headers.authorization) {
     var token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, config.secret, (err, decoded) => {
-      if(err)
-        next(err);
+      if(err) {
+        if(err.name == "TokenExpiredError")
+          next(createError(401));
+        else if(err.name="JsonWebTokenError") next(createError(400))
+        else if(err) next(err)
+      }
       else {
         res.locals.user = decoded;
         next();
