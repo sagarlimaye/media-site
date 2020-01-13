@@ -47,7 +47,7 @@ router.use('/:path(news|users|user)',function(req, res, next) {
       if(err) {
         if(err.name == "TokenExpiredError")
           next(createError(401));
-        else if(err.name="JsonWebTokenError") next(createError(400))
+        else if(err.name=="JsonWebTokenError") next(createError(400))
         else if(err) next(err)
       }
       else {
