@@ -7,7 +7,8 @@ const crypto = require('crypto');
 const mongoose = require('mongoose');
 const userSchema = require('../schemas/user');
 const User = mongoose.model('User', userSchema, 'users');
-
+const newsSchema = require('../schemas/news');
+const News = mongoose.model('News', newsSchema, 'news');
 router.use('/auth', function(req, res, next) {
   if(req.body && req.body.username && req.body.password) {
     let id = req.body.username;
@@ -40,7 +41,7 @@ router.use('/register', (req, res, next) => {
   else next(createError(400));
 });
 router.post('/register', (req, res, next) => {
-  User.create(req.body).then(() => res.sendStatus(201)).catch(err => (err instanceof mongoose.Error.ValidationError)? next(createError(400)) : next(err));
+  User.create(req.body).then(() => res.sendStatus(201)).catch(err => (err instanceof mongoose.Error.ValidationError)? next(createError(400, 'There was a problem in your user details. Please check the format and try again.')) : next(err));
 });
 
 router.use(function(req, res, next) {
@@ -59,7 +60,10 @@ router.use(function(req, res, next) {
 });
 
 router.get('/news', (req, res, next) => {
-  res.json([
+  News.find({}).then(news => res.json(news)).catch(err => next(err));
+  /* SAMPLE DATA */
+  /*
+  [
     {
       _id: 1,
       title: "Many parts of Australia are currently facing catastrophic fire conditions",
@@ -95,7 +99,8 @@ router.get('/news', (req, res, next) => {
       imageUrl: "https://cdn.pixabay.com/photo/2013/08/10/11/04/fire-171229_1280.jpg",
       type: 2
     }
-  ]);
+  ]
+  */
 });
 
 router.use((req, res, next) => {
