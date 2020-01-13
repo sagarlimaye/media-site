@@ -9,7 +9,8 @@ const userSchema = require('../schemas/user');
 const User = mongoose.model('User', userSchema, 'users');
 const newsSchema = require('../schemas/news');
 const News = mongoose.model('News', newsSchema, 'news');
-router.use('/auth', function(req, res, next) {
+
+router.post('/auth', function(req, res, next) {
   if(req.body && req.body.username && req.body.password) {
     let id = req.body.username;
     let hash = crypto.createHash('sha256');
@@ -29,22 +30,17 @@ router.use('/auth', function(req, res, next) {
   else next(createError(400));
 });
 
-router.use('/register', (req, res, next) => {
+router.post('/register', (req, res, next) => {
   if(req.body && req.body.password) {
-    try {
-      let hash = crypto.createHash('sha256');
-      hash.update(req.body.password);
-      req.body.password = hash.digest('hex');
-    }
-    catch(err) { next(err) }
+    let hash = crypto.createHash('sha256');
+    hash.update(req.body.password);
+    req.body.password = hash.digest('hex');
+    User.create(req.body).then(() => res.sendStatus(201)).catch(err => (err instanceof mongoose.Error.ValidationError)? next(createError(400, 'There was a problem in your user details. Please check the format and try again.')) : next(err));
   }
   else next(createError(400));
 });
-router.post('/register', (req, res, next) => {
-  User.create(req.body).then(() => res.sendStatus(201)).catch(err => (err instanceof mongoose.Error.ValidationError)? next(createError(400, 'There was a problem in your user details. Please check the format and try again.')) : next(err));
-});
 
-router.use(function(req, res, next) {
+router.use('/:path(news|users|user)',function(req, res, next) {
   if(req.headers.authorization) {
     var token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, config.secret, (err, decoded) => {
@@ -116,5 +112,5 @@ router.post('/news', (req, res, next) => {
 router.delete('/news/:id', (req, res, next) => {
   res.sendStatus(204);
 });
-
+router.use("*", (req, res, next) => next(createError(404)));
 module.exports = router;
