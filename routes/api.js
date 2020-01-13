@@ -105,7 +105,7 @@ router.get('/news', (req, res, next) => {
 
 router.use((req, res, next) => {
   if(res.locals.user && res.locals.user.role != 1)
-    next(createError(401));
+    next(createError(403));
   else next();
 });
 
@@ -116,5 +116,13 @@ router.post('/news', (req, res, next) => {
 router.delete('/news/:id', (req, res, next) => {
   res.sendStatus(204);
 });
+
+router.get('/users', (req, res, next) => {
+  User.find({}).then(users => res.json(users)).catch(err => next(err));
+});
+router.delete('/user/:id', (req, res, next) => {
+  User.find({ _id: mongoose.Types.ObjectId(req.params.id) }).then(done => res.sendStatus(201)).catch(err => (err instanceof mongoose.Error.ValidationError) ? next(createError(400)) : next(err));
+});
+3
 router.use("*", (req, res, next) => next(createError(404)));
 module.exports = router;
