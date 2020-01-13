@@ -1,0 +1,101 @@
+<div class="sidenav">
+    <div class="login-main-text">
+       <h1>Welcome Admin</h1>
+       
+    </div>
+  </div>
+  <div class="main">
+    <div class="col-md-14 col-sm-12">
+       <div class="login-form">
+        <div class="col-md-4 offset-md-4">
+            <h2>News List</h2>
+            
+        </div>
+        <div class="col-md-2 offset-md-2">
+            <button type="button" class="btn btn-danger" (click)="onLogout()">Logout</button>
+        </div>
+        <div class="row">
+        
+            <div class="col-md-8 offset-md-2">
+            <table class="table">
+                <thead>
+                <tr>
+                    <th scope="col">Title</th>
+                    <th scope="col">Description</th>
+                    <th scope="col"> Published At</th>
+                    <th scope="col"></th>
+                </tr>
+            </thead>
+            <tbody>
+            <tr scope="row" class="text-secondary" *ngFor="let user of userService.users">
+                <td>{{user.title}}</td>
+                <td>{{user.description}}</td>
+                <td>{{user.publishedAt | date}}</td>
+                <td scope="row">
+                <button type="button" class="btn btn-outline-primary btn btn-black" (click)="onEdit(user)">Edit</button>&nbsp;
+                <button type="button" class="btn btn-outline-danger btn btn-black" (click)="onDelete(user._id, userForm)">Delete</button>
+            </td>
+            </tr>
+        </tbody>
+            </table>
+        </div>    
+        </div>
+        <div class="row">
+            <div class="col-md-8 offset-md-2">
+                <form #userForm="ngForm" (ngSubmit)="onSubmit(userForm)">
+                
+                    <input type="hidden" name="_id" #_id="ngModel" [(ngModel)]="userService.selectedUser._id">
+                    <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                                <label >Title: 
+                                        <label class="text-danger">*</label>
+                                    </label>
+                            <input type="text" name="title" #title="ngModel" class="form-control" [(ngModel)]="userService.selectedUser.title" placeholder="Enter Title" required>
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                            
+                                <label>Description: 
+                                        <label class="text-danger">*</label>
+                                    </label>
+                            <input type="text" name="description" #description="ngModel" class="form-control" [(ngModel)]="userService.selectedUser.description" placeholder="Enter Description" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="row">
+                        <div class="col">
+                                <label >Published At:
+                                        
+                                    </label>
+                            <input type="datetime" name="publishedAt" #publishedAt="ngModel" class="form-control" [(ngModel)]="userService.selectedUser.publishedAt" placeholder="mm/dd/yyyy">
+                                
+                        </div>
+                    </div>
+                </div>
+                    <div class="row">
+                        <div class="col">
+                            <button class="btn btn-black" type="button" (click)="resetForm(userForm)">Reset</button>&nbsp;
+                            <button [disabled]="userForm.invalid" class="btn btn-black" type="submit">Add</button>
+                        </div>
+                    </div>
+                </form>
+
+
+
+
+
+
+            </div>
+
+        </div>
+        
+
+        </div>
+    </div>
+</div>
