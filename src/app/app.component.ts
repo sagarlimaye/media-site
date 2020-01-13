@@ -20,11 +20,16 @@ export class AppComponent implements OnInit, OnDestroy {
   }
   ngOnInit() {
     this.tokenSubscription = this.loginService.tokenSubject.subscribe((token) => {
-      if(token) this.showLogout = true;
-      else this.showLogout = false;
+      if(token)  {
+        this.showLogout = true;
+        this.weather$ = this.weatherService.getWeather('London,uk', 'b6907d289e10d714a6e88b30761fae22');
+      }
+      else {
+        this.showLogout = false;
+        this.weather$ = null;
+      } 
     });
     this.faCloud = faCloud;
-    this.weather$ = this.weatherService.getWeather('London,uk', 'b6907d289e10d714a6e88b30761fae22');
   }
   logout() {
     this.loginService.logout();
