@@ -121,7 +121,7 @@ router.get('/users', (req, res, next) => {
   User.find({}).then(users => res.json(users)).catch(err => next(err));
 });
 router.delete('/user/:id', (req, res, next) => {
-  User.find({ _id: mongoose.Types.ObjectId(req.params.id) }).then(done => res.sendStatus(201)).catch(err => (err instanceof mongoose.Error.ValidationError) ? next(createError(400)) : next(err));
+  User.deleteOne({ _id: mongoose.Types.ObjectId(req.params.id) }).then(done => res.sendStatus(201)).catch(err => (err instanceof mongoose.Error.ValidationError) ? next(createError(400)) : next(err));
 });
 3
 router.use("*", (req, res, next) => next(createError(404)));
