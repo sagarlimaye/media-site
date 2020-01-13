@@ -9,16 +9,13 @@ import { map, tap } from 'rxjs/operators';
   providedIn: 'root'
 })
 export class AuthGuard implements CanActivate, CanActivateChild {
-
-  url :string;
-
   constructor(private loginService : LoginService, private router : Router) {
 
   }
   canActivate(
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    return this.loginService.tokenSubject.pipe(map(token => this.checkLogin(this.url, token)));
+    return this.loginService.tokenSubject.pipe(map(token => this.checkLogin(state.url, token)));
   }
   canActivateChild(
     next: ActivatedRouteSnapshot,

@@ -16,11 +16,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'dist', 'media-site')));
+app.use('/api', apiRouter);
 
 app.get('*', function(req, res, next) {
   res.sendFile('/', { root: 'dist/media-site/' });
 });
-
-app.use('/api', apiRouter);
 
 module.exports = app;

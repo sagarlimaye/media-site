@@ -53,7 +53,7 @@
 
   <!-- Weather report -->
   <div class="card highlight-card card-small">
-    <span>{{ title }} app is running!</span>
+    <span>Welcome to {{ title }} app! <span *ngIf="weather$ | async as weather"><fa-icon [icon]="faCloud"></fa-icon> {{ weather.list[0].main.temp }}° C {{ weather.list[0].weather[0].main }}</span></span>
   </div>
 
   <router-outlet></router-outlet>
