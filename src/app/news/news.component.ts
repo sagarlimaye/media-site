@@ -18,7 +18,6 @@ export class NewsComponent implements OnInit {
   ngOnInit() {
     this.news$ = this.newsService.getNews();
     var i;
-    console.log("works");
     this.news$.forEach(element => {
       for(i in element){
         var item = {}
@@ -29,7 +28,7 @@ export class NewsComponent implements OnInit {
         item['imageUrl'] = element[i].imageUrl;
         //console.log(item);
         this.receivednews.push(item);
-        console.log(this.receivednews);
+        //console.log(this.receivednews);
       }
     });
     
