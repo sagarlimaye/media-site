@@ -4,6 +4,7 @@ import { LoginService } from './login.service';
 import { Router } from '@angular/router';
 import { faCloud } from '@fortawesome/free-solid-svg-icons';
 import { WeatherService } from './weather.service';
+import {NewsService} from './news.service';
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -15,7 +16,8 @@ export class AppComponent implements OnInit, OnDestroy {
   tokenSubscription : Subscription;
   faCloud;
   weather$: Observable<any>
-  constructor(private loginService: LoginService, private router: Router, private weatherService: WeatherService) {
+  news$: Observable<any>
+  constructor(private loginService: LoginService, private router: Router, private weatherService: WeatherService,private newsService: NewsService) {
     
   }
   ngOnInit() {
@@ -23,10 +25,12 @@ export class AppComponent implements OnInit, OnDestroy {
       if(token)  {
         this.showLogout = true;
         this.weather$ = this.weatherService.getWeather('London,uk', 'b6907d289e10d714a6e88b30761fae22');
+        //this.news$ = this.newsService.getNews();
       }
       else {
         this.showLogout = false;
         this.weather$ = null;
+       // this.news$ = null;
       } 
     });
     this.faCloud = faCloud;
