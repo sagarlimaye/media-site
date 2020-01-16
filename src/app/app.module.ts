@@ -12,13 +12,17 @@ import { AboutComponent } from './about/about.component';
 import { ContactComponent } from './contact/contact.component';
 import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AuthInterceptor } from './auth/auth-interceptor';
+import { AdminComponent } from './admin/admin.component';
+import { SportsComponent } from './sports/sports.component';
 @NgModule({
   declarations: [
     AppComponent,
     NewsComponent,
     LoginComponent,
     AboutComponent,
-    ContactComponent
+    ContactComponent,
+    AdminComponent,
+    SportsComponent
   ],
   imports: [
     BrowserModule,

@@ -1,0 +1,81 @@
+<div class="container">
+    <div [hidden]="submitted">
+      <h1>Add News</h1>
+      <form (ngSubmit)="onSubmit()" #addnews="ngForm">
+        <div class="form-group">
+                <label for="tle">Title</label>
+                <input type="text" class="form-control" id="tle"
+                       [(ngModel)]="model.tle" name="tle">
+              </div>
+        <div class="form-group">
+          <label for="descrip">Description</label>
+          <input type="text" class="form-control" id="descrip"
+                 [(ngModel)]="model.descrip" name="descrip">
+        </div>
+        <div class="form-group">
+            <label for="url">URL</label>
+            <input type="text" class="form-control" id="url"
+                   [(ngModel)]="model.url" name="url">
+          </div>
+          <div class="form-group">
+            <label for="urlimg">URL To Image</label>
+            <input type="text" class="form-control" id="urlimg"
+                   [(ngModel)]="model.urlimg" name="urlimg">
+          </div>
+          <div class="form-group">
+            <label for="pub">Published At</label>
+            <input type="text" class="form-control" id="pub"
+                   [(ngModel)]="model.pub" name="pub">
+          </div>
+  
+        <button type="submit" class="btn btn-success" [disabled]="!addnews.form.valid">Submit</button>
+        <button type="button" class="btn btn-default" (click)="resetNews(); addnews.reset()">Reset</button>
+      </form>
+
+    <h3 >News List</h3>
+    <div class="card-body">
+      <div id="table" class="table-editable">
+        <span class="table-add float-right">
+          <a class="text-success" (click)="add()">  
+          </a>
+        </span>
+        <table class="table table-bordered table-responsive-md table-striped text-center">
+          <tr>
+            <th class="text-center">Title</th>
+            <th class="text-center">Description</th>
+            <th class="text-center">Published At</th>
+            <th class="text-center">Remove</th>
+          </tr>
+          <tr *ngFor="let n of newsList; let id = index">
+            <td>
+              <span (keyup)="changeValue(id, 'title', $event)" (blur)="updateList(id, 'title', $event)" contenteditable="true">{{n.title}}</span>
+            </td>
+            <td>
+              <span contenteditable="true" (keyup)="changeValue(id, 'desc', $event)" (blur)="updateList(id, 'desc', $event)">{{n.desc}}</span>
+            </td>
+            <td>
+              <span contenteditable="true" (keyup)="changeValue(id, 'publish', $event)" (blur)="updateList(id, 'publish', $event)">{{n.publish}}</span>
+            </td>
+            <td>
+              <span class="table-up">
+                <a class="indigo-text">
+                 
+                </a>
+              </span>
+              <span class="table-down">
+                <a class="indigo-text">
+                  
+                </a>
+              </span>
+            </td>
+            <td>
+              <span class="table-remove">
+                <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="remove(id)">Remove</button>
+              </span>
+            </td>
+          </tr>
+        </table>
+      </div>
+    </div>
+  </div>
+ </div> 

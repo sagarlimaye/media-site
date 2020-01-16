@@ -1,9 +1,9 @@
 <div class="card-container">
 <label class="card">
-    <input type="text" [(ngModel)]="username" placeholder="Your username">
+    <input type="text" [(ngModel)]="username" placeholder="Your username" required>
 </label>
 <label class="card">
-    <input type="password" [(ngModel)]="password" placeholder="Your password">
+    <input type="password" [(ngModel)]="password" placeholder="Your password" required>
 </label>
 <button class='card' (click)="authenticate()">Log in</button>
 </div>
