@@ -61,48 +61,17 @@ router.use('/:path(news|users|user)',function(req, res, next) {
 
 router.get('/news', (req, res, next) => {
   News.find({}).then(news => res.json(news)).catch(err => next(err));
-  /* SAMPLE DATA */
-  /*
-  [
-    {
-      _id: 1,
-      title: "Many parts of Australia are currently facing catastrophic fire conditions",
-      description: "The fires have been burning for months, consuming nearly 18 million acres of land, causing thousands to evacuate and killing potentially millions of animals",
-      imageUrl: "https://cdn.pixabay.com/photo/2013/08/10/11/04/fire-171229_1280.jpg",
-      type: 1
-    },
-    {
-      _id: 2,
-      title: "Paragliding accident in Summit County",
-      description: "One person was injured after a paragliding accident occurred on Tuesday in Summit County",
-      imageUrl: "https://cdn.pixabay.com/photo/2019/12/29/15/45/paragliding-4727377_1280.jpg",
-      type: 1
-    },
-    {
-      _id: 3,
-      title: "Story3",
-      description: "Description",
-      imageUrl: "https://cdn.pixabay.com/photo/2013/08/10/11/04/fire-171229_1280.jpg",
-      type: 1
-    },
-    {
-      _id: 4,
-      title: "Story4",
-      description: "Description",
-      imageUrl: "https://cdn.pixabay.com/photo/2013/08/10/11/04/fire-171229_1280.jpg",
-      type: 2
-    },
-    {
-      _id: 5,
-      title: "Story4",
-      description: "Description",
-      imageUrl: "https://cdn.pixabay.com/photo/2013/08/10/11/04/fire-171229_1280.jpg",
-      type: 2
-    }
-  ]
-  */
 });
+router.post('/addnews',(req,res,next)=>{
+  console.log("in router");
+  var news1 = new News ({story : req.body.story,title : req.body.title, description : req.body.description, imageUrl : req.body.imageUrl, type :req.body.type})
+ console.log(news1);
+  news1.save(function (error,news) {
 
+    console.log("news saved");
+    if(!error) res.send(news);
+  });
+});
 router.use((req, res, next) => {
   if(res.locals.user && res.locals.user.role != 1)
     next(createError(403));

@@ -1,9 +1,9 @@
-<carousel>
-    <slide *ngFor="let newsItem of news$ | async" class="animated fadeIn">
-      <img [src]="newsItem.imageUrl" style="display: block; width: 100%;">
-      <div class="carousel-caption d-none d-md-block">
-        <h3>{{newsItem.title}}</h3>
-        <p>{{newsItem.description}}</p>
-      </div>
-    </slide>
-</carousel>
+<ul>
+  <li *ngFor="let newsItem of receivednews" > 
+      <img [src]="newsItem['imageUrl']" style="display: block; width: 25%;">
+      
+        <h4>{{newsItem['title']}}</h4>
+        <p>{{newsItem['description']}}</p>
+      
+      </li>
+</ul> 

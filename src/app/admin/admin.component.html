@@ -1,38 +1,37 @@
 <div class="container">
     <div [hidden]="submitted">
       <h1>Add News</h1>
-      <form (ngSubmit)="onSubmit()" #addnews="ngForm">
+      <form (ngSubmit)="addNews()" #addnews="ngForm">
         <div class="form-group">
                 <label for="tle">Title</label>
                 <input type="text" class="form-control" id="tle"
-                       [(ngModel)]="model.tle" name="tle">
+                       [(ngModel)]="title" name="tle">
               </div>
         <div class="form-group">
           <label for="descrip">Description</label>
           <input type="text" class="form-control" id="descrip"
-                 [(ngModel)]="model.descrip" name="descrip">
+                 [(ngModel)]="description" name="descrip">
         </div>
         <div class="form-group">
-            <label for="url">URL</label>
-            <input type="text" class="form-control" id="url"
-                   [(ngModel)]="model.url" name="url">
+          <label for="story">Story</label>
+          <input type="text" class="form-control" id="story"
+                 [(ngModel)]="story" name="story">
+        </div>
+        <div class="form-group">
+            <label for="type">Type</label>
+            <input type="text" class="form-control" id="type"
+                   [(ngModel)]="type" name="type">
           </div>
           <div class="form-group">
             <label for="urlimg">URL To Image</label>
             <input type="text" class="form-control" id="urlimg"
-                   [(ngModel)]="model.urlimg" name="urlimg">
+                   [(ngModel)]="imgUrl" name="urlimg">
           </div>
-          <div class="form-group">
-            <label for="pub">Published At</label>
-            <input type="text" class="form-control" id="pub"
-                   [(ngModel)]="model.pub" name="pub">
-          </div>
-  
         <button type="submit" class="btn btn-success" [disabled]="!addnews.form.valid">Submit</button>
         <button type="button" class="btn btn-default" (click)="resetNews(); addnews.reset()">Reset</button>
       </form>
 
-    <h3 >News List</h3>
+    <!-- <h3 >News List</h3>
     <div class="card-body">
       <div id="table" class="table-editable">
         <span class="table-add float-right">
@@ -76,6 +75,6 @@
           </tr>
         </table>
       </div>
-    </div>
+    </div> -->
   </div>
  </div> 
