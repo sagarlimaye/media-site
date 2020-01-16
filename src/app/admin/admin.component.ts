@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { AddNews }    from '../addNews';
 import {HttpClient} from '@angular/common/http';
-import { Subject, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { NewsService } from '../news.service';
 
 @Component({
   selector: 'app-admin',
@@ -11,24 +9,21 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  tokenSubject : BehaviorSubject<string> = new BehaviorSubject<string>(localStorage.getItem('token'));
-  constructor(private http : HttpClient, private router: Router) { }
+  title: string;
+  description: string;
+  story: string;
+  type: number;
+  imageUrl: string;
+  published: Date;
+
+  constructor(private newsService: NewsService, private router: Router) { }
 
   ngOnInit() {
   }
 
-    title: string;
-    description: string;
-    story: string;
-    type: number;
-    imageUrl: string;
-
-addNews(){
-  console.log("in add news");
-  // return this.http.post('/api/addnews',{title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type});
-
-  return this.http.post('http://localhost:3000/api/addnews', { title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type}).subscribe(news => {
-    this.router.navigate(['/admin']);
+addNews() {
+  this.newsService.addNews({title: this.title, description: this.description, story: this.story, type: this.type, imageUrl: this.imageUrl, published: this.published}).subscribe(news => {
+    this.router.navigate(['/']);
   });
   //   tap(t => {
   //     localStorage.setItem('token', t.toString());
@@ -36,7 +31,14 @@ addNews(){
   //   })
   // );
 }
-
+  resetNews() {
+    this.title = "";
+    this.description = "";
+    this.story = "";
+    this.imageUrl = '';
+    this.type = 1;
+    this.published = new Date();
+  }
   // onSubmit() { this.submitted = true; }
 
   // resetNews()

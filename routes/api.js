@@ -70,14 +70,10 @@ router.use((req, res, next) => {
 });
 
 router.post('/addnews',(req,res,next)=>{
-  console.log("in router");
-  
-  var news1 = new News ({story : req.body.story,title : req.body.title, description : req.body.description, imageUrl : req.body.imageUrl, type :req.body.type})
- console.log(news1);
+  var news1 = new News ({story : req.body.story,title : req.body.title, description : req.body.description, imageUrl : req.body.imageUrl, type :req.body.type, published: new Date(req.body.published) });
   news1.save(function (error,news) {
     if(error && error instanceof mongoose.Error.ValidationError) next(createError(400));
     
-    console.log("news saved");
     if(!error) res.send(news);
   });
 });

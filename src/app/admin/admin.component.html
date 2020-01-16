@@ -19,16 +19,23 @@
         </div>
         <div class="form-group">
             <label for="type">Type</label>
-            <input type="text" class="form-control" id="type"
-                   [(ngModel)]="type" name="type">
+            <select class='form-control' name="type" [(ngModel)] = "type">
+              <option value="0">News</option>
+              <option value="1">Sports</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="urlimg">URL To Image</label>
             <input type="text" class="form-control" id="urlimg"
                    [(ngModel)]="imgUrl" name="urlimg">
           </div>
+          <div class="form-group">
+            <label for="urlimg">Published</label>
+            <input type="date" class="form-control" id="published"
+                   [(ngModel)]="published" name="published">
+          </div>
         <button type="submit" class="btn btn-success" [disabled]="!addnews.form.valid">Submit</button>
-        <button type="button" class="btn btn-default" (click)="resetNews(); addnews.reset()">Reset</button>
+        <button type="button" class="btn btn-default" (click)="resetNews();">Reset</button>
       </form>
 
     <!-- <h3 >News List</h3>
