@@ -40,7 +40,7 @@ router.post('/register', (req, res, next) => {
   else next(createError(400));
 });
 
-router.use('/:path(news|users|user)',function(req, res, next) {
+router.use('/:path(news|users|user|addnews)',function(req, res, next) {
   if(req.headers.authorization) {
     var token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, config.secret, (err, decoded) => {
