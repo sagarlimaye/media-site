@@ -56,20 +56,8 @@
               <span contenteditable="true" (keyup)="changeValue(id, 'publish', $event)" (blur)="updateList(id, 'publish', $event)">{{n.publish}}</span>
             </td>
             <td>
-              <span class="table-up">
-                <a class="indigo-text">
-                 
-                </a>
-              </span>
-              <span class="table-down">
-                <a class="indigo-text">
-                  
-                </a>
-              </span>
-            </td>
-            <td>
               <span class="table-remove">
-                <button type="button" mdbBtn color="danger" rounded="true" size="sm" class="my-0" (click)="remove(id)">Remove</button>
+                <button type="button" mdbBtn color="danger" rounded="true" size="sm"(click)="remove(id)">Remove</button>
               </span>
             </td>
           </tr>
