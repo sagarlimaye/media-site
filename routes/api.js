@@ -62,20 +62,24 @@ router.use('/:path(news|users|user)',function(req, res, next) {
 router.get('/news', (req, res, next) => {
   News.find({}).then(news => res.json(news)).catch(err => next(err));
 });
-router.post('/addnews',(req,res,next)=>{
-  console.log("in router");
-  var news1 = new News ({story : req.body.story,title : req.body.title, description : req.body.description, imageUrl : req.body.imageUrl, type :req.body.type})
- console.log(news1);
-  news1.save(function (error,news) {
 
-    console.log("news saved");
-    if(!error) res.send(news);
-  });
-});
 router.use((req, res, next) => {
   if(res.locals.user && res.locals.user.role != 1)
     next(createError(403));
   else next();
+});
+
+router.post('/addnews',(req,res,next)=>{
+  console.log("in router");
+  
+  var news1 = new News ({story : req.body.story,title : req.body.title, description : req.body.description, imageUrl : req.body.imageUrl, type :req.body.type})
+ console.log(news1);
+  news1.save(function (error,news) {
+    if(error && error instanceof mongoose.Error.ValidationError) next(createError(400));
+    
+    console.log("news saved");
+    if(!error) res.send(news);
+  });
 });
 
 router.post('/news', (req, res, next) => {

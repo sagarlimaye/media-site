@@ -3,6 +3,7 @@ import { AddNews }    from '../addNews';
 import {HttpClient} from '@angular/common/http';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-admin',
@@ -11,7 +12,7 @@ import { tap } from 'rxjs/operators';
 })
 export class AdminComponent implements OnInit {
   tokenSubject : BehaviorSubject<string> = new BehaviorSubject<string>(localStorage.getItem('token'));
-  constructor(private http : HttpClient) { }
+  constructor(private http : HttpClient, private router: Router) { }
 
   ngOnInit() {
   }
@@ -26,7 +27,9 @@ addNews(){
   console.log("in add news");
   // return this.http.post('/api/addnews',{title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type});
 
-  return this.http.post('http://localhost:3000/api/addnews', { title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type})
+  return this.http.post('http://localhost:3000/api/addnews', { title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type}).subscribe(news => {
+    this.router.navigate(['/admin']);
+  });
   //   tap(t => {
   //     localStorage.setItem('token', t.toString());
   //     this.tokenSubject.next(localStorage.getItem('token'));
