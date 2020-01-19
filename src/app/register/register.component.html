@@ -1,0 +1,12 @@
+<h3>Hi! Welcome! thanks for registering!</h3>
+<h6 *ngIf="success" style="color:green">Successfully created user!</h6>
+<h6 *ngIf="error" style="color:red">There was a problem processing your request</h6>
+<div class="card-container">
+    <label class="card">
+        <input type="text" [(ngModel)]="username" placeholder="Pick a username" required>
+    </label>
+    <label class="card">
+        <input type="password" [(ngModel)]="password" placeholder="Type a password (8-12 characters)" required>
+    </label>
+    <button class='card' (click)="register()">Register</button>
+</div>

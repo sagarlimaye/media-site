@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
 import { Router } from '@angular/router';
 import { NewsService } from '../news.service';
+import { Observable } from 'rxjs';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-admin',
@@ -15,10 +17,11 @@ export class AdminComponent implements OnInit {
   type: number;
   imageUrl: string;
   published: Date;
-
-  constructor(private newsService: NewsService, private router: Router) { }
+  users$ : Observable<any>;
+  constructor(private newsService: NewsService, private router: Router, private loginService: LoginService) { }
 
   ngOnInit() {
+    this.users$ = this.loginService.getUsers();
   }
 
 addNews() {
@@ -30,6 +33,12 @@ addNews() {
   //     this.tokenSubject.next(localStorage.getItem('token'));
   //   })
   // );
+}
+switchRole(user) {
+  user.role = user.role == 0 ? 1: 0;
+  this.loginService.updateUser(user).subscribe(null, err => {
+    user.role = user.role == 0?1:0;
+  });
 }
   resetNews() {
     this.title = "";

@@ -14,6 +14,7 @@ import { CarouselModule } from 'ngx-bootstrap/carousel';
 import { AuthInterceptor } from './auth/auth-interceptor';
 import { AdminComponent } from './admin/admin.component';
 import { SportsComponent } from './sports/sports.component';
+import { RegisterComponent } from './register/register.component';
 @NgModule({
   declarations: [
     AppComponent,
@@ -22,7 +23,8 @@ import { SportsComponent } from './sports/sports.component';
     AboutComponent,
     ContactComponent,
     AdminComponent,
-    SportsComponent
+    SportsComponent,
+    RegisterComponent
   ],
   imports: [
     BrowserModule,
