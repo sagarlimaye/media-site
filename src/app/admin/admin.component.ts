@@ -26,8 +26,8 @@ export class AdminComponent implements OnInit {
 addNews(){
   console.log("in add news");
   // return this.http.post('/api/addnews',{title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type});
-
-  return this.http.post('http://localhost:3000/api/addnews', { title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type}).subscribe(news => {
+  console.log(this.imageUrl);
+    return this.http.post('http://localhost:3000/api/addnews', { title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type}).subscribe(news => {
     this.router.navigate(['/admin']);
   });
   //   tap(t => {
