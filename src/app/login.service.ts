@@ -23,4 +23,13 @@ export class LoginService {
     localStorage.removeItem('token');
     this.tokenSubject.next(localStorage.getItem('token'));
   }
+  registerUser(username:string, password: string) {
+    return this.http.post('/api/register', {username: username, password: password, role:0 });
+  }
+  getUsers() {
+    return this.http.get('/api/users');
+  }
+  updateUser(user) {
+    return this.http.post('/api/user/'+user._id, user);
+  }
 }

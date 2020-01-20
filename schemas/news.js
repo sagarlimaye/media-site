@@ -4,6 +4,7 @@ var newsSchema = new mongoose.Schema({
     description: String,
     story: String,
     type: Number,
-    imageUrl: String
+    imageUrl: String,
+    published: mongoose.Schema.Types.Date
 });
 module.exports = newsSchema;

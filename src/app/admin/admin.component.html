@@ -19,8 +19,10 @@
         </div>
         <div class="form-group">
             <label for="type">Type</label>
-            <input type="text" class="form-control" id="type"
-                   [(ngModel)]="type" name="type">
+            <select class='form-control' name="type" [(ngModel)] = "type">
+              <option value="0">News</option>
+              <option value="1">Sports</option>
+            </select>
           </div>
           <div class="form-group">
             <label for="imgUrl">URL To Image</label>
@@ -28,9 +30,24 @@
                    [(ngModel)]="imgUrl" name="imgUrl">
           </div>
         <button type="submit" class="btn btn-success" [disabled]="!addnews.form.valid">Submit</button>
-        <button type="button" class="btn btn-default" (click)="resetNews(); addnews.reset()">Reset</button>
+        <button type="button" class="btn btn-default" (click)="resetNews();">Reset</button>
       </form>
-
+      <div class="spacer"></div>
+      <table class="table table-striped">
+        <thead>
+        <tr>
+          <th scope="col">Username</th>
+          <th scope="col">User Type</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr *ngFor="let user of users$ | async">
+          <td>{{ user.username }}</td>
+          <input [id] = "'role-'+user._id" type="checkbox" [checked]="user.role == 1" (change) = "switchRole(user)" data-toggle="toggle" data-on="Admin" data-off="Standard" data-onstyle="success" data-offstyle="danger">
+          <label [for]= "'role-'+user._id">{{ user.role == 1 ? "Admin" : "Standard" }}</label>
+        </tr>
+        </tbody>
+      </table>
     <!-- <h3 >News List</h3>
     <div class="card-body">
       <div id="table" class="table-editable">

@@ -31,16 +31,17 @@ router.post('/auth', function(req, res, next) {
 });
 
 router.post('/register', (req, res, next) => {
-  if(req.body && req.body.password) {
+  if(req.body) {
     let hash = crypto.createHash('sha256');
     hash.update(req.body.password);
     req.body.password = hash.digest('hex');
-    User.create(req.body).then(() => res.sendStatus(201)).catch(err => (err instanceof mongoose.Error.ValidationError)? next(createError(400, 'There was a problem in your user details. Please check the format and try again.')) : next(err));
+    delete req.body._id;
+    User.create(req.body).then(done => res.status(201).json(done.id)).catch(err => (err instanceof mongoose.Error.ValidationError)? next(createError(400, 'There was a problem in your user details. Please check the format and try again.')) : next(err));
   }
-  else next(createError(400));
+  else next(createError(400, 'There was a problem in your user details. Please check the format and try again.'));
 });
 
-router.use('/:path(news|users|user)',function(req, res, next) {
+router.use('/:path(news|users|user|addnews)',function(req, res, next) {
   if(req.headers.authorization) {
     var token = req.headers.authorization.split(' ')[1];
     jwt.verify(token, config.secret, (err, decoded) => {
@@ -70,14 +71,10 @@ router.use((req, res, next) => {
 });
 
 router.post('/addnews',(req,res,next)=>{
-  console.log("in router");
-  
-  var news1 = new News ({story : req.body.story,title : req.body.title, description : req.body.description, imageUrl : req.body.imageUrl, type :req.body.type})
- console.log(news1);
+  var news1 = new News ({story : req.body.story,title : req.body.title, description : req.body.description, imageUrl : req.body.imageUrl, type :req.body.type, published: new Date(req.body.published) });
   news1.save(function (error,news) {
     if(error && error instanceof mongoose.Error.ValidationError) next(createError(400));
     
-    console.log("news saved");
     if(!error) res.send(news);
   });
 });
@@ -91,11 +88,23 @@ router.delete('/news/:id', (req, res, next) => {
 });
 
 router.get('/users', (req, res, next) => {
-  User.find({}).then(users => res.json(users)).catch(err => next(err));
+  User.find({}).then(users => {
+    users.map(user => user.toObject()).forEach(user => {
+      delete user.password;
+    });
+    res.json(users);
+  }).catch(err => next(err));
 });
 router.delete('/user/:id', (req, res, next) => {
   User.deleteOne({ _id: mongoose.Types.ObjectId(req.params.id) }).then(done => res.sendStatus(201)).catch(err => (err instanceof mongoose.Error.ValidationError) ? next(createError(400)) : next(err));
 });
-3
+router.post('/user/:id', (req, res, next) => {
+  if(req.body) {
+      User.updateOne({_id: mongoose.Types.ObjectId(req.params.id)}, req.body, {upsert: false})
+          .then(done => res.sendStatus(204))
+          .catch(err => (err instanceof mongoose.Error.ValidationError) ? next(createError(400)): next(err));
+  }
+  else next(createError(400, 'There was a problem in your user details. Please check the format and try again.'));
+});
 router.use("*", (req, res, next) => next(createError(404)));
 module.exports = router;

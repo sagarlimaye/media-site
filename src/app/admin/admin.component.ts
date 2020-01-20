@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { AddNews }    from '../addNews';
 import {HttpClient} from '@angular/common/http';
-import { Subject, BehaviorSubject } from 'rxjs';
-import { tap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { NewsService } from '../news.service';
+import { Observable } from 'rxjs';
+import { LoginService } from '../login.service';
 
 @Component({
   selector: 'app-admin',
@@ -11,10 +11,17 @@ import { Router } from '@angular/router';
   styleUrls: ['./admin.component.css']
 })
 export class AdminComponent implements OnInit {
-  tokenSubject : BehaviorSubject<string> = new BehaviorSubject<string>(localStorage.getItem('token'));
-  constructor(private http : HttpClient, private router: Router) { }
+  title: string;
+  description: string;
+  story: string;
+  type: number;
+  imageUrl: string;
+  published: Date;
+  users$ : Observable<any>;
+  constructor(private newsService: NewsService, private router: Router, private loginService: LoginService) { }
 
   ngOnInit() {
+    this.users$ = this.loginService.getUsers();
   }
 
     title: string;
@@ -36,7 +43,20 @@ addNews(){
   //   })
   // );
 }
-
+switchRole(user) {
+  user.role = user.role == 0 ? 1: 0;
+  this.loginService.updateUser(user).subscribe(null, err => {
+    user.role = user.role == 0?1:0;
+  });
+}
+  resetNews() {
+    this.title = "";
+    this.description = "";
+    this.story = "";
+    this.imageUrl = '';
+    this.type = 1;
+    this.published = new Date();
+  }
   // onSubmit() { this.submitted = true; }
 
   // resetNews()
