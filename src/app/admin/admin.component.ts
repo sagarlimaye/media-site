@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { NewsService } from '../news.service';
 import { Observable } from 'rxjs';
 import { LoginService } from '../login.service';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 
 @Component({
   selector: 'app-admin',
@@ -34,10 +35,10 @@ addNews() {
   //   })
   // );
 }
-switchRole(user) {
-  user.role = user.role == 0 ? 1: 0;
+switchRole(user, $event: MatSlideToggleChange) {
+  user.role = $event.checked ? 1 : 0;
   this.loginService.updateUser(user).subscribe(null, err => {
-    user.role = user.role == 0?1:0;
+    $event.checked = false;
   });
 }
   resetNews() {

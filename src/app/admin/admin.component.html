@@ -46,10 +46,9 @@
         </tr>
         </thead>
         <tbody>
-        <tr *ngFor="let user of users$ | async">
+        <tr *ngFor="let user of users$ | async; let i = index">
           <td>{{ user.username }}</td>
-          <input [id] = "'role-'+user._id" type="checkbox" [checked]="user.role == 1" (change) = "switchRole(user)" data-toggle="toggle" data-on="Admin" data-off="Standard" data-onstyle="success" data-offstyle="danger">
-          <label [for]= "'role-'+user._id">{{ user.role == 1 ? "Admin" : "Standard" }}</label>
+          <mat-slide-toggle [id] = "i" [checked]="user.role == 1" (change) = "switchRole(user, $event)">{{ user.role == 1 ? "Admin" : "Standard" }}</mat-slide-toggle>
         </tr>
         </tbody>
       </table>

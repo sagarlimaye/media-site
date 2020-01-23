@@ -32,5 +32,5 @@ export class AppComponent implements OnInit {
     this.loginService.logout();
     this.router.navigate(['/login']);
   }
-  }
+  
 }
