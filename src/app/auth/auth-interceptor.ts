@@ -3,7 +3,7 @@ import { HttpInterceptor, HttpResponse, HttpErrorResponse } from '@angular/commo
 import { LoginService } from '../login.service';
 import { HttpRequest, HttpHandler, HttpEvent } from '@angular/common/http';
 import { Observable, Subscription } from 'rxjs';
-import { switchMap, tap } from 'rxjs/operators';
+import { switchMap, tap, skipWhile, takeWhile } from 'rxjs/operators';
 import { Router } from '@angular/router';
 @Injectable()
 export class AuthInterceptor implements HttpInterceptor {
@@ -14,13 +14,16 @@ export class AuthInterceptor implements HttpInterceptor {
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         return this.loginService.tokenSubject.pipe(
             switchMap(token => {
-                const authReq = req.clone({
-                    setHeaders: {
-                        Authorization: "Bearer " + token
-                    }
-                });
-
-                return next.handle(authReq);
+                if(token) {
+                    const authReq = req.clone({
+                        setHeaders: {
+                            Authorization: "Bearer " + token
+                        }
+                    });
+    
+                    return next.handle(authReq);
+                }
+                else return next.handle(req);
             }),
             tap(null, error => {
                 if(error instanceof HttpErrorResponse && (error as HttpErrorResponse).status == 401)

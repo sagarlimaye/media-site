@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import static com.mediasite.api.security.SecurityConstants.HEADER_STRING;
 import static com.mediasite.api.security.SecurityConstants.SECRET;
 import static com.mediasite.api.security.SecurityConstants.TOKEN_PREFIX;
+import static com.mediasite.api.security.SecurityConstants.SIGN_UP_URL;
 
 public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
 
@@ -41,9 +42,10 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         chain.doFilter(req, res);
     }
 
+    // REGISTER PAGE SHOULD ALLOW ANONYMOUS ACCESS
     private UsernamePasswordAuthenticationToken getAuthentication(HttpServletRequest request) {
         String token = request.getHeader(HEADER_STRING);
-        if (token != null) {
+        if (token != null && !request.getRequestURI().contains(SIGN_UP_URL)) {
             // parse the token.
             String user = JWT.require(Algorithm.HMAC512(SECRET.getBytes()))
                     .build()
