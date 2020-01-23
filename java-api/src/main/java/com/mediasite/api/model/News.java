@@ -1,10 +1,6 @@
 package com.mediasite.api.model;
-import com.mongodb.*;
-
-import java.text.SimpleDateFormat;
-import java.time.Instant;
-import java.time.format.DateTimeFormatter;
-import java.time.temporal.TemporalAccessor;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 import java.util.Date;
 import org.springframework.data.annotation.Id;
 
@@ -13,7 +9,9 @@ public class News {
     private String _id;
     private String title;
     private String description;
-    private String story;
+	private String story;
+	private String imageUrl;
+	@JsonFormat(shape = Shape.STRING)
     private Date published;
 
 
@@ -44,15 +42,16 @@ public class News {
 	public Date getPublished() {
 		return published;
 	}
-	public void setPublished(String pub) {
-		DateTimeFormatter df = DateTimeFormatter.ISO_DATE_TIME;
-		TemporalAccessor accessor = df.parse(pub);
-		Date date = Date.from(Instant.from(accessor));
-
-		this.published = date;
-	}
 	public void setPublished(Date published) {
 		this.published = published;
+	}
+
+	public String getImageUrl() {
+		return imageUrl;
+	}
+
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
 	}
     
 }
