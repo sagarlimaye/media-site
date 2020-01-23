@@ -30,6 +30,6 @@ export class LoginService {
     return this.http.get('/api/users');
   }
   updateUser(user) {
-    return this.http.post('/api/user/'+user._id, user);
+    return this.http.put('/api/user/'+user._id, user);
   }
 }
