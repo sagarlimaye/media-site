@@ -25,9 +25,18 @@ export class AdminComponent implements OnInit {
     this.users$ = this.loginService.getUsers();
   }
 
-addNews() {
-  this.newsService.addNews({title: this.title, description: this.description, story: this.story, type: this.type, imageUrl: this.imageUrl, published: this.published}).subscribe(news => {
-    this.router.navigate(['/']);
+    title: string;
+    description: string;
+    story: string;
+    type: number;
+    imageUrl: string;
+
+addNews(){
+  console.log("in add news");
+  // return this.http.post('/api/addnews',{title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type});
+  console.log(this.imageUrl);
+    return this.http.post('http://localhost:3000/api/addnews', { title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type}).subscribe(news => {
+    this.router.navigate(['/admin']);
   });
   //   tap(t => {
   //     localStorage.setItem('token', t.toString());
