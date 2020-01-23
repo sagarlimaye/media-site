@@ -5,6 +5,7 @@ import { NewsService } from '../news.service';
 import { Observable } from 'rxjs';
 import { LoginService } from '../login.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'app-admin',
@@ -25,19 +26,10 @@ export class AdminComponent implements OnInit {
     this.users$ = this.loginService.getUsers();
   }
 
-    title: string;
-    description: string;
-    story: string;
-    type: number;
-    imageUrl: string;
-
 addNews(){
-  console.log("in add news");
-  // return this.http.post('/api/addnews',{title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type});
-  console.log(this.imageUrl);
-    return this.http.post('http://localhost:3000/api/addnews', { title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type : this.type}).subscribe(news => {
+    this.newsService.addNews({ title : this.title, story : this.story, description : this.description , imageUrl : this.imageUrl, type :     this.type, published: this.published}).subscribe(news => {
     this.router.navigate(['/admin']);
-  });
+    });
   //   tap(t => {
   //     localStorage.setItem('token', t.toString());
   //     this.tokenSubject.next(localStorage.getItem('token'));

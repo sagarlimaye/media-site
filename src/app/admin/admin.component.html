@@ -25,9 +25,14 @@
             </select>
           </div>
           <div class="form-group">
-            <label for="imgUrl">URL To Image</label>
-            <input type="text" class="form-control" id="imgUrl"
-                   [(ngModel)]="imgUrl" name="imgUrl">
+            <label for="imageUrl">URL To Image</label>
+            <input type="text" class="form-control" id="imageUrl"
+                   [(ngModel)]="imageUrl" name="imageUrl">
+          </div>
+          <div class="form-group">
+            <label for="imageUrl">Published on</label>
+            <input type="date" class="form-control" id="published"
+                   [(ngModel)]="published" name="published">
           </div>
         <button type="submit" class="btn btn-success" [disabled]="!addnews.form.valid">Submit</button>
         <button type="button" class="btn btn-default" (click)="resetNews();">Reset</button>
