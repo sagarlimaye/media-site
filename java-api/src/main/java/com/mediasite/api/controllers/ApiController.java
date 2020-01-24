@@ -45,7 +45,7 @@ public class ApiController {
     }
 
     // ADD NEWS RETURNS ERROR BECAUSE OF DATE PARSING 
-    @PostMapping("/addnews")
+    @PostMapping("/news")
     public void createNews(@RequestBody News news) {
         newsRepository.save(news);
     }

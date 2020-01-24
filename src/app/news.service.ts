@@ -13,6 +13,6 @@ export class NewsService {
     return this.http.get('/api/news');
   }
   addNews(news: News) {
-    return this.http.post('/api/addnews', news);
+    return this.http.post('/api/news', news);
   }
 }
