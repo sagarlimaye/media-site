@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { LoginService } from '../login.service';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { tap } from 'rxjs/operators';
+import { User } from '../user';
 
 @Component({
   selector: 'app-admin',
@@ -35,6 +36,9 @@ addNews(){
   //     this.tokenSubject.next(localStorage.getItem('token'));
   //   })
   // );
+}
+deleteUser(user: User) {
+  this.loginService.deleteUser(user).subscribe(() => this.users$ = this.loginService.getUsers());
 }
 switchRole(user, $event: MatSlideToggleChange) {
   user.role = $event.checked ? 1 : 0;

@@ -2,6 +2,7 @@ import { Injectable, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Subject, BehaviorSubject } from 'rxjs';
 import { tap } from 'rxjs/operators';
+import { User } from './user';
 
 @Injectable({
   providedIn: 'root'
@@ -31,5 +32,8 @@ export class LoginService {
   }
   updateUser(user) {
     return this.http.put('/api/user/'+user._id, user);
+  }
+  deleteUser(user) {
+    return this.http.delete('/api/user/'+user._id);
   }
 }

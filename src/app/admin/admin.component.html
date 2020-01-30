@@ -1,89 +1,56 @@
-<div class="container">
-    <div [hidden]="submitted">
-      <h1>Add News</h1>
-      <form (ngSubmit)="addNews()" #addnews="ngForm">
-        <div class="form-group">
-                <label for="tle">Title</label>
-                <input type="text" class="form-control" id="tle"
-                       [(ngModel)]="title" name="tle">
-              </div>
-        <div class="form-group">
-          <label for="descrip">Description</label>
-          <input type="text" class="form-control" id="descrip"
-                 [(ngModel)]="description" name="descrip">
-        </div>
-        <div class="form-group">
-          <label for="story">Story</label>
-          <input type="text" class="form-control" id="story"
-                 [(ngModel)]="story" name="story">
-        </div>
-        <div class="form-group">
-            <label for="type">Type</label>
-            <select class='form-control' name="type" [(ngModel)] = "type">
-              <option value="0">News</option>
-              <option value="1">Sports</option>
-            </select>
-          </div>
-          <div class="form-group">
-            <label for="imageUrl">URL To Image</label>
-            <input type="text" class="form-control" id="imageUrl"
-                   [(ngModel)]="imageUrl" name="imageUrl">
-          </div>
-          <div class="form-group">
-            <label for="published">Published on</label>
-            <input type="date" class="form-control" id="published"
-                   [(ngModel)]="published" name="published">
-          </div>
-        <button type="submit" class="btn btn-success" [disabled]="!addnews.form.valid">Submit</button>
-        <button type="button" class="btn btn-default" (click)="resetNews();">Reset</button>
-      </form>
-      <div class="spacer"></div>
-      <table class="table table-striped">
-        <thead>
-        <tr>
-          <th scope="col">Username</th>
-          <th scope="col">User Type</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr *ngFor="let user of users$ | async; let i = index">
-          <td>{{ user.username }}</td>
-          <mat-slide-toggle [id] = "i" [checked]="user.role == 1" (change) = "switchRole(user, $event)">{{ user.role == 1 ? "Admin" : "Standard" }}</mat-slide-toggle>
-        </tr>
-        </tbody>
-      </table>
-    <!-- <h3 >News List</h3>
-    <div class="card-body">
-      <div id="table" class="table-editable">
-        <span class="table-add float-right">
-          <a class="text-success" (click)="add()">  
-          </a>
-        </span>
-        <table class="table table-bordered table-responsive-md table-striped text-center">
-          <tr>
-            <th class="text-center">Title</th>
-            <th class="text-center">Description</th>
-            <th class="text-center">Published At</th>
-            <th class="text-center">Remove</th>
-          </tr>
-          <tr *ngFor="let n of newsList; let id = index">
-            <td>
-              <span (keyup)="changeValue(id, 'title', $event)" (blur)="updateList(id, 'title', $event)" contenteditable="true">{{n.title}}</span>
-            </td>
-            <td>
-              <span contenteditable="true" (keyup)="changeValue(id, 'desc', $event)" (blur)="updateList(id, 'desc', $event)">{{n.desc}}</span>
-            </td>
-            <td>
-              <span contenteditable="true" (keyup)="changeValue(id, 'publish', $event)" (blur)="updateList(id, 'publish', $event)">{{n.publish}}</span>
-            </td>
-            <td>
-              <span class="table-remove">
-                <button type="button" mdbBtn color="danger" rounded="true" size="sm"(click)="remove(id)">Remove</button>
-              </span>
-            </td>
-          </tr>
-        </table>
-      </div>
-    </div> -->
+<h3>Add News</h3>
+<form (ngSubmit)="addNews()" #addnews="ngForm">
+  <div class="form-group">
+    <label for="tle">Title</label>
+    <input type="text" class="form-control" id="tle" [(ngModel)]="title" name="tle">
   </div>
- </div> 
+  <div class="form-group">
+    <label for="descrip">Description</label>
+    <input type="text" class="form-control" id="descrip" [(ngModel)]="description" name="descrip">
+  </div>
+  <div class="form-group">
+    <label for="story">Story</label>
+    <input type="text" class="form-control" id="story" [(ngModel)]="story" name="story">
+  </div>
+  <div class="form-group">
+    <label for="type">Type</label>
+    <select class='form-control' name="type" [(ngModel)]="type">
+      <option value="0">News</option>
+      <option value="1">Sports</option>
+    </select>
+  </div>
+  <div class="form-group">
+    <label for="imageUrl">URL To Image</label>
+    <input type="text" class="form-control" id="imageUrl" [(ngModel)]="imageUrl" name="imageUrl">
+  </div>
+  <div class="form-group">
+    <label for="published">Published on</label>
+    <input type="date" class="form-control" id="published" [(ngModel)]="published" name="published">
+  </div>
+  <button type="submit" class="btn btn-success" [disabled]="!addnews.form.valid">Submit</button>
+  <button type="button" class="btn btn-default" (click)="resetNews();">Reset</button>
+</form>
+<div *ngIf="users$ | async" class="users-list">
+  <h3>Users</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th scope="col">Username</th>
+        <th scope="col">User Type</th>
+        <th scope="col">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let user of users$ | async; let i = index">
+        <td>{{ user.username }}</td>
+        <td>
+          <mat-slide-toggle [id]="i" [checked]="user.role == 1" (change)="switchRole(user, $event)">
+            {{ user.role == 1 ? "Admin" : "Standard" }}</mat-slide-toggle>
+        </td>
+        <td>
+          <button (click)="deleteUser(user)" class="btn btn-danger">Delete</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
